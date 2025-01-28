@@ -12,7 +12,6 @@ public class HallsDAO implements IHallsDAO {
 
     private Connection connection;
 
-    // Конструктор для подключения к базе данных
     public HallsDAO() {
         try {
             this.connection = DBConnectionManager.getInstance().getConnection();

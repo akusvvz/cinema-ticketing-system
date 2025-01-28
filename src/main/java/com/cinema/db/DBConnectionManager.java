@@ -19,7 +19,7 @@ public class DBConnectionManager {
         String dbHost = dotenv.get("DB_HOST");
         String dbPort = dotenv.get("DB_PORT");
 
-        String url = "jdbc:postgresql://" + dbHost + ":" + dbPort + "/" + dbName;
+        String url = "jdbc:postgresql://" + dbHost + ":" + dbPort + "/" + dbName + "?sslmode=require";
 
         try {
             Class.forName("org.postgresql.Driver");
