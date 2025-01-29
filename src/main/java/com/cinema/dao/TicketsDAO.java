@@ -23,7 +23,7 @@ public class TicketsDAO implements ITicketsDAO {
     @Override
     public List<Tickets> getAllTickets() {
         List<Tickets> tickets = new ArrayList<>();
-        String query = "SELECT * FROM Ticket";
+        String query = "SELECT * FROM tickets";
 
         try (PreparedStatement statement = connection.prepareStatement(query);
              ResultSet resultSet = statement.executeQuery()) {

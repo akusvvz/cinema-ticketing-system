@@ -23,7 +23,7 @@ public class ShowtimesDAO implements IShowtimesDAO {
     @Override
     public List<Showtimes> getAllShowtimes() {
         List<Showtimes> showtimes = new ArrayList<>();
-        String query = "SELECT * FROM Showtime";
+        String query = "SELECT * FROM showtimes";
 
         try (PreparedStatement statement = connection.prepareStatement(query);
              ResultSet resultSet = statement.executeQuery()) {

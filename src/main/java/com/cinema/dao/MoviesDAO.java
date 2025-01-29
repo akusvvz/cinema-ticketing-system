@@ -8,11 +8,11 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MovieDAO implements IMovieDAO {
+public class MoviesDAO implements IMovieDAO {
 
     private Connection connection;
 
-    public MovieDAO() {
+    public MoviesDAO() {
         try {
             this.connection = DBConnectionManager.getInstance().getConnection();
         } catch (SQLException e) {
@@ -23,7 +23,7 @@ public class MovieDAO implements IMovieDAO {
     @Override
     public List<Movies> getAllMovies() {
         List<Movies> movies = new ArrayList<>();
-        String query = "SELECT * FROM Movie";
+        String query = "SELECT * FROM movies";
 
         try (PreparedStatement statement = connection.prepareStatement(query);
              ResultSet resultSet = statement.executeQuery()) {

@@ -23,7 +23,7 @@ public class SeatsDAO implements ISeatsDAO {
     @Override
     public List<Seats> getAllSeats() {
         List<Seats> seats = new ArrayList<>();
-        String query = "SELECT * FROM Seat";
+        String query = "SELECT * FROM seats";
 
         try (PreparedStatement statement = connection.prepareStatement(query);
              ResultSet resultSet = statement.executeQuery()) {

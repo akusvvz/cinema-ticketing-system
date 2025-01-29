@@ -23,7 +23,7 @@ public class BookingsDAO implements IBookingsDAO {
     @Override
     public List<Bookings> getAllBookings() {
         List<Bookings> bookings = new ArrayList<>();
-        String query = "SELECT * FROM Booking";
+        String query = "SELECT * FROM bookings";
 
         try (PreparedStatement statement = connection.prepareStatement(query);
              ResultSet resultSet = statement.executeQuery()) {

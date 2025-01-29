@@ -23,7 +23,7 @@ public class UsersDAO implements IUsersDAO {
     @Override
     public List<Users> getAllUsers() {
         List<Users> users = new ArrayList<>();
-        String query = "SELECT * FROM User";
+        String query = "SELECT * FROM users";
 
         try (PreparedStatement statement = connection.prepareStatement(query);
              ResultSet resultSet = statement.executeQuery()) {

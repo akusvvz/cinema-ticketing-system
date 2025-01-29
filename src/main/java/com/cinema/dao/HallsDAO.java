@@ -23,7 +23,7 @@ public class HallsDAO implements IHallsDAO {
     @Override
     public List<Halls> getAllHalls() {
         List<Halls> halls = new ArrayList<>();
-        String query = "SELECT * FROM Hall";
+        String query = "SELECT * FROM halls";
 
         try (PreparedStatement statement = connection.prepareStatement(query);
              ResultSet resultSet = statement.executeQuery()) {
