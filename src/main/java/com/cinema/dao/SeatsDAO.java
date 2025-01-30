@@ -47,7 +47,7 @@ public class SeatsDAO implements ISeatsDAO {
     @Override
     public Seats getSeatById(int id) {
         Seats seat = null;
-        String query = "SELECT * FROM Seat WHERE seat_id = ?";
+        String query = "SELECT * FROM seats WHERE seat_id = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, id);
@@ -71,7 +71,7 @@ public class SeatsDAO implements ISeatsDAO {
     @Override
     public List<Seats> getSeatsByHallId(int hallId) {
         List<Seats> seats = new ArrayList<>();
-        String query = "SELECT * FROM Seat WHERE hall_id = ?";
+        String query = "SELECT * FROM seats WHERE hall_id = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, hallId);
@@ -95,7 +95,7 @@ public class SeatsDAO implements ISeatsDAO {
 
     @Override
     public boolean addSeat(Seats seat) {
-        String query = "INSERT INTO Seat (hall_id, row_number, seat_number, seat_type) VALUES (?, ?, ?, ?)";
+        String query = "INSERT INTO seats (hall_id, row_number, seat_number, seat_type) VALUES (?, ?, ?, ?)";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, seat.getHallId());
@@ -113,7 +113,7 @@ public class SeatsDAO implements ISeatsDAO {
 
     @Override
     public boolean updateSeat(Seats seat) {
-        String query = "UPDATE Seat SET hall_id = ?, row_number = ?, seat_number = ?, seat_type = ? WHERE seat_id = ?";
+        String query = "UPDATE seats SET hall_id = ?, row_number = ?, seat_number = ?, seat_type = ? WHERE seat_id = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, seat.getHallId());
@@ -132,7 +132,7 @@ public class SeatsDAO implements ISeatsDAO {
 
     @Override
     public boolean deleteSeat(int id) {
-        String query = "DELETE FROM Seat WHERE seat_id = ?";
+        String query = "DELETE FROM seats WHERE seat_id = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, id);

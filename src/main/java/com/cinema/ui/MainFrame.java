@@ -38,10 +38,7 @@ public class MainFrame extends JFrame {
         for (Movies movie : movies) {
             JButton movieButton = new JButton(movie.getTitle() + " (" + movie.getRating() + ")");
             movieButton.setPreferredSize(new Dimension(200, 50));
-            movieButton.addActionListener(e -> JOptionPane.showMessageDialog(this,
-                    "Name: " + movie.getTitle() + "\nGenre: " + movie.getGenre() +
-                            "\nDuration: " + movie.getDuration() + " min\nRating IMDb: " + movie.getRating(),
-                    "Info", JOptionPane.INFORMATION_MESSAGE));
+            movieButton.addActionListener(e -> new ShowtimesFrame(movie.getMovieId(), movie.getTitle()));
             moviePanel.add(movieButton);
         }
 

@@ -47,7 +47,7 @@ public class BookingsDAO implements IBookingsDAO {
     @Override
     public Bookings getBookingById(int id) {
         Bookings booking = null;
-        String query = "SELECT * FROM Booking WHERE booking_id = ?";
+        String query = "SELECT * FROM bookings WHERE booking_id = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, id);
@@ -70,7 +70,7 @@ public class BookingsDAO implements IBookingsDAO {
 
     @Override
     public boolean addBooking(Bookings booking) {
-        String query = "INSERT INTO Booking (user_id, showtime_id, booking_date, status) VALUES (?, ?, ?, ?)";
+        String query = "INSERT INTO bookings (user_id, showtime_id, booking_date, status) VALUES (?, ?, ?, ?)";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, booking.getUserId());
@@ -88,7 +88,7 @@ public class BookingsDAO implements IBookingsDAO {
 
     @Override
     public boolean updateBooking(Bookings booking) {
-        String query = "UPDATE Booking SET user_id = ?, showtime_id = ?, booking_date = ?, status = ? WHERE booking_id = ?";
+        String query = "UPDATE bookings SET user_id = ?, showtime_id = ?, booking_date = ?, status = ? WHERE booking_id = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, booking.getUserId());
@@ -107,7 +107,7 @@ public class BookingsDAO implements IBookingsDAO {
 
     @Override
     public boolean deleteBooking(int id) {
-        String query = "DELETE FROM Booking WHERE booking_id = ?";
+        String query = "DELETE FROM bookings WHERE booking_id = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, id);

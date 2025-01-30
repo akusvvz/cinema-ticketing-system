@@ -45,7 +45,7 @@ public class HallsDAO implements IHallsDAO {
     @Override
     public Halls getHallById(int id) {
         Halls hall = null;
-        String query = "SELECT * FROM Hall WHERE hall_id = ?";
+        String query = "SELECT * FROM halls WHERE hall_id = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, id);
@@ -66,7 +66,7 @@ public class HallsDAO implements IHallsDAO {
 
     @Override
     public boolean addHall(Halls hall) {
-        String query = "INSERT INTO Hall (name, capacity) VALUES (?, ?)";
+        String query = "INSERT INTO halls (name, capacity) VALUES (?, ?)";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, hall.getName());
@@ -82,7 +82,7 @@ public class HallsDAO implements IHallsDAO {
 
     @Override
     public boolean updateHall(Halls hall) {
-        String query = "UPDATE Hall SET name = ?, capacity = ? WHERE hall_id = ?";
+        String query = "UPDATE halls SET name = ?, capacity = ? WHERE hall_id = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, hall.getName());
@@ -99,7 +99,7 @@ public class HallsDAO implements IHallsDAO {
 
     @Override
     public boolean deleteHall(int id) {
-        String query = "DELETE FROM Hall WHERE hall_id = ?";
+        String query = "DELETE FROM halls WHERE hall_id = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, id);

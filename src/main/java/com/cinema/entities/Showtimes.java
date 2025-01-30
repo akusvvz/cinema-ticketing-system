@@ -1,20 +1,24 @@
 package com.cinema.entities;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class Showtimes {
     private int showtimeId;
-    private LocalDateTime dateTime;
     private int movieId;
     private int hallId;
+    private LocalDate showDate;
+    private LocalTime showTime;
+    private String hallName;
 
     public Showtimes() {}
 
-    public Showtimes(int showtimeId, LocalDateTime dateTime, int movieId, int hallId) {
+    public Showtimes(int showtimeId, int movieId, int hallId, LocalDate showDate, LocalTime showTime) {
         this.showtimeId = showtimeId;
-        this.dateTime = dateTime;
         this.movieId = movieId;
         this.hallId = hallId;
+        this.showDate = showDate;
+        this.showTime = showTime;
     }
 
     public int getShowtimeId() {
@@ -25,13 +29,13 @@ public class Showtimes {
         this.showtimeId = showtimeId;
     }
 
-    public LocalDateTime getDateTime() {
-        return dateTime;
-    }
+    public LocalDate getShowDate() { return showDate; }
 
-    public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
-    }
+    public void setShowDate(LocalDate showDate) { this.showDate = showDate; }
+
+    public LocalTime getShowTime() { return showTime; }
+
+    public void setShowTime(LocalTime showTime) { this.showTime = showTime; }
 
     public int getMovieId() {
         return movieId;
@@ -49,13 +53,20 @@ public class Showtimes {
         this.hallId = hallId;
     }
 
+    public String getHallName() { return hallName; }
+
+    public void setHallName(String hallName) {
+        this.hallName = hallName;
+    }
+
     @Override
     public String toString() {
         return "Showtimes{" +
                 "showtimeId=" + showtimeId +
-                ", dateTime=" + dateTime +
                 ", movieId=" + movieId +
                 ", hallId=" + hallId +
+                ", showDate=" + showDate +
+                ", showDate=" + showTime +
                 '}';
     }
 }

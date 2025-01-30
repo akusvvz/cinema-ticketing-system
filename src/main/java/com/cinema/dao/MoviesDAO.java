@@ -47,7 +47,7 @@ public class MoviesDAO implements IMovieDAO {
     @Override
     public Movies getMovieById(int id) {
         Movies movie = null;
-        String query = "SELECT * FROM Movie WHERE movie_id = ?";
+        String query = "SELECT * FROM movies WHERE movie_id = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, id);
@@ -70,7 +70,7 @@ public class MoviesDAO implements IMovieDAO {
 
     @Override
     public boolean addMovie(Movies movie) {
-        String query = "INSERT INTO Movie (title, genre, duration, rating) VALUES (?, ?, ?, ?)";
+        String query = "INSERT INTO movies (title, genre, duration, rating) VALUES (?, ?, ?, ?)";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, movie.getTitle());
@@ -88,7 +88,7 @@ public class MoviesDAO implements IMovieDAO {
 
     @Override
     public boolean updateMovie(Movies movie) {
-        String query = "UPDATE Movie SET title = ?, genre = ?, duration = ?, rating = ? WHERE movie_id = ?";
+        String query = "UPDATE movies SET title = ?, genre = ?, duration = ?, rating = ? WHERE movie_id = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, movie.getTitle());
@@ -107,7 +107,7 @@ public class MoviesDAO implements IMovieDAO {
 
     @Override
     public boolean deleteMovie(int id) {
-        String query = "DELETE FROM Movie WHERE movie_id = ?";
+        String query = "DELETE FROM movies WHERE movie_id = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, id);

@@ -46,7 +46,7 @@ public class TicketsDAO implements ITicketsDAO {
     @Override
     public Tickets getTicketById(int id) {
         Tickets ticket = null;
-        String query = "SELECT * FROM Ticket WHERE ticket_id = ?";
+        String query = "SELECT * FROM tickets WHERE ticket_id = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, id);
@@ -69,7 +69,7 @@ public class TicketsDAO implements ITicketsDAO {
     @Override
     public List<Tickets> getTicketsByBookingId(int bookingId) {
         List<Tickets> tickets = new ArrayList<>();
-        String query = "SELECT * FROM Ticket WHERE booking_id = ?";
+        String query = "SELECT * FROM tickets WHERE booking_id = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, bookingId);
@@ -92,7 +92,7 @@ public class TicketsDAO implements ITicketsDAO {
 
     @Override
     public boolean addTicket(Tickets ticket) {
-        String query = "INSERT INTO Ticket (booking_id, seat_id, price) VALUES (?, ?, ?)";
+        String query = "INSERT INTO tickets (booking_id, seat_id, price) VALUES (?, ?, ?)";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, ticket.getBookingId());
@@ -109,7 +109,7 @@ public class TicketsDAO implements ITicketsDAO {
 
     @Override
     public boolean updateTicket(Tickets ticket) {
-        String query = "UPDATE Ticket SET booking_id = ?, seat_id = ?, price = ? WHERE ticket_id = ?";
+        String query = "UPDATE tickets SET booking_id = ?, seat_id = ?, price = ? WHERE ticket_id = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, ticket.getBookingId());
@@ -127,7 +127,7 @@ public class TicketsDAO implements ITicketsDAO {
 
     @Override
     public boolean deleteTicket(int id) {
-        String query = "DELETE FROM Ticket WHERE ticket_id = ?";
+        String query = "DELETE FROM tickets WHERE ticket_id = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, id);

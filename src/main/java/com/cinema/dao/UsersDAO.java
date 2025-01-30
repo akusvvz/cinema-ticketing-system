@@ -47,7 +47,7 @@ public class UsersDAO implements IUsersDAO {
     @Override
     public Users getUserById(int id) {
         Users user = null;
-        String query = "SELECT * FROM User WHERE user_id = ?";
+        String query = "SELECT * FROM users WHERE user_id = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, id);
@@ -70,7 +70,7 @@ public class UsersDAO implements IUsersDAO {
 
     @Override
     public boolean addUser(Users user) {
-        String query = "INSERT INTO User (username, password, email, role) VALUES (?, ?, ?, ?)";
+        String query = "INSERT INTO users (username, password, email, role) VALUES (?, ?, ?, ?)";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, user.getUsername());
@@ -88,7 +88,7 @@ public class UsersDAO implements IUsersDAO {
 
     @Override
     public boolean updateUser(Users user) {
-        String query = "UPDATE User SET username = ?, password = ?, email = ?, role = ? WHERE user_id = ?";
+        String query = "UPDATE users SET username = ?, password = ?, email = ?, role = ? WHERE user_id = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, user.getUsername());
@@ -107,7 +107,7 @@ public class UsersDAO implements IUsersDAO {
 
     @Override
     public boolean deleteUser(int id) {
-        String query = "DELETE FROM User WHERE user_id = ?";
+        String query = "DELETE FROM users WHERE user_id = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, id);
