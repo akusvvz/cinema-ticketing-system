@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ShowtimesDAO implements IShowtimesDAO {
-
     private Connection connection;
 
     public ShowtimesDAO() {
@@ -70,6 +69,7 @@ public class ShowtimesDAO implements IShowtimesDAO {
         return showtime;
     }
 
+    @Override
     public List<Showtimes> getShowtimesByMovieId(int movieId) {
         List<Showtimes> showtimes = new ArrayList<>();
         String query = "SELECT s.showtime_id, s.show_date, s.show_time, s.hall_id, h.name AS hall_name " +
@@ -100,7 +100,7 @@ public class ShowtimesDAO implements IShowtimesDAO {
 
     @Override
     public boolean addShowtime(Showtimes showtime) {
-        String query = "INSERT INTO showtimes (movie_id, hall_id, show_date, show_time) VALUES (?, ?, ?)";
+        String query = "INSERT INTO showtimes (movie_id, hall_id, show_date, show_time) VALUES (?, ?, ?, ?)";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, showtime.getMovieId());

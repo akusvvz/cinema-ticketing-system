@@ -46,6 +46,30 @@ public class TicketsDAO implements ITicketsDAO {
     }
 
     @Override
+    public Tickets getTicketById(int id) {
+        Tickets ticket = null;
+        String query = "SELECT * FROM tickets WHERE ticket_id = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                ticket = new Tickets();
+                ticket.setTicketId(resultSet.getInt("ticket_id"));
+                ticket.setShowtimeId(resultSet.getInt("showtime_id"));
+                ticket.setSeatId(resultSet.getInt("seat_id"));
+                ticket.setPrice(resultSet.getDouble("price"));
+                ticket.setStatus(resultSet.getString("status"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return ticket;
+    }
+
+    @Override
     public int generateUniqueTicketId() {
         Random random = new Random();
         int ticketId;
@@ -73,7 +97,7 @@ public class TicketsDAO implements ITicketsDAO {
 
     @Override
     public int saveTicket(int showtimeId, int seatId, int price) {
-        String query = "INSERT INTO tickets (ticket_id, showtime_id, seat_id, price, status) VALUES (?, ?, ?, ?, 'Active')";
+        String query = "INSERT INTO tickets (ticket_id, showtime_id, seat_id, price, status) " + "VALUES (?, ?, ?, ?, 'Active')";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             int ticketId = generateUniqueTicketId();
             statement.setInt(1, ticketId);
@@ -89,32 +113,8 @@ public class TicketsDAO implements ITicketsDAO {
     }
 
     @Override
-    public Tickets getTicketById(int id) {
-        Tickets ticket = null;
-        String query = "SELECT * FROM tickets WHERE ticket_id = ?";
-
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setInt(1, id);
-            ResultSet resultSet = statement.executeQuery();
-
-            if (resultSet.next()) {
-                ticket = new Tickets();
-                ticket.setTicketId(resultSet.getInt("ticket_id"));
-                ticket.setShowtimeId(resultSet.getInt("showtime_id"));
-                ticket.setSeatId(resultSet.getInt("seat_id"));
-                ticket.setPrice(resultSet.getDouble("price"));
-                ticket.setStatus(resultSet.getString("status"));
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return ticket;
-    }
-
-    @Override
-    public boolean updateTicket(Tickets ticket) { // fix
-        String query = "UPDATE tickets SET showtime_id = ?, seat_id = ?, price = ?, status = ? WHERE ticket_id = ?";
+    public boolean updateTicket(Tickets ticket) {
+        String query = "UPDATE tickets SET showtime_id = ?, seat_id = ?, price = ?, status = ? " + "WHERE ticket_id = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, ticket.getShowtimeId());
@@ -132,7 +132,7 @@ public class TicketsDAO implements ITicketsDAO {
     }
 
     @Override
-    public boolean deleteTicket(int id) { // fix
+    public boolean deleteTicket(int id) {
         String query = "DELETE FROM tickets WHERE ticket_id = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
