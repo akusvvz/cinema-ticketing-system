@@ -19,7 +19,7 @@ public class ShowtimesFrame extends JFrame {
         this.movieTitle = movieTitle;
 
         setTitle("Showtimes - " + movieTitle);
-        setSize(900, 600);
+        setSize(800, 600);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
@@ -36,6 +36,9 @@ public class ShowtimesFrame extends JFrame {
         topPanel.add(loginButton, BorderLayout.EAST);
 
         JPanel showtimePanel = new JPanel();
+        JScrollPane scrollPane = new JScrollPane(showtimePanel);
+        scrollPane.setBorder(null);
+        scrollPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 0));
         showtimePanel.setLayout(new BoxLayout(showtimePanel, BoxLayout.Y_AXIS));
 
         ShowtimesController showtimeController = new ShowtimesController();
@@ -77,7 +80,8 @@ public class ShowtimesFrame extends JFrame {
                                 date,
                                 showtime.getShowTime().format(DateTimeFormatter.ofPattern("HH:mm")),
                                 hall,
-                                showtime.getHallId()
+                                showtime.getHallId(),
+                                showtime.getShowtimeId()
                         );
                         this.dispose();
                     });
@@ -92,7 +96,7 @@ public class ShowtimesFrame extends JFrame {
         }
 
         add(topPanel, BorderLayout.NORTH);
-        add(new JScrollPane(showtimePanel), BorderLayout.CENTER);
+        add(scrollPane, BorderLayout.CENTER);
 
         setVisible(true);
     }

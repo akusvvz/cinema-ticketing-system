@@ -2,17 +2,19 @@ package com.cinema.entities;
 
 public class Tickets {
     private int ticketId;
-    private int bookingId;
+    private int showtimeId;
     private int seatId;
     private double price;
+    private String status;
 
     public Tickets() {}
 
-    public Tickets(int ticketId, int bookingId, int seatId, double price) {
+    public Tickets(int ticketId, int showtimeId, int seatId, double price, String status) {
         this.ticketId = ticketId;
-        this.bookingId = bookingId;
+        this.showtimeId = showtimeId;
         this.seatId = seatId;
         this.price = price;
+        this.status = status;
     }
 
     public int getTicketId() {
@@ -23,12 +25,12 @@ public class Tickets {
         this.ticketId = ticketId;
     }
 
-    public int getBookingId() {
-        return bookingId;
+    public int getShowtimeId() {
+        return showtimeId;
     }
 
-    public void setBookingId(int bookingId) {
-        this.bookingId = bookingId;
+    public void setShowtimeId(int showtimeId) {
+        this.showtimeId = showtimeId;
     }
 
     public int getSeatId() {
@@ -47,13 +49,22 @@ public class Tickets {
         this.price = price;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         return "Tickets{" +
                 "ticketId=" + ticketId +
-                ", bookingId=" + bookingId +
+                ", showtimeId=" + showtimeId +
                 ", seatId=" + seatId +
                 ", price=" + price +
+                ", status='" + status + '\'' +
                 '}';
     }
 }

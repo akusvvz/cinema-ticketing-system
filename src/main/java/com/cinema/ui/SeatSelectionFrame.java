@@ -16,27 +16,43 @@ public class SeatSelectionFrame extends JFrame {
     private String showTime;
     private String hallName;
     private int hallId;
+    private int showtimeId;
 
     private JPanel seatPanel;
     private JLabel priceLabel;
     private Set<JToggleButton> selectedSeats = new HashSet<>();
     private int totalPrice = 0;
 
-    public SeatSelectionFrame(int movieId, String movieTitle, String showDate, String showTime, String hallName, int hallId) {
+    public SeatSelectionFrame(int movieId, String movieTitle, String showDate, String showTime, String hallName, int hallId, int showtimeId) {
         this.movieId = movieId;
         this.movieTitle = movieTitle;
         this.showDate = showDate;
         this.showTime = showTime;
         this.hallName = hallName;
         this.hallId = hallId;
+        this.showtimeId = showtimeId;
 
         setTitle("Seat Selection - " + movieTitle);
-        setSize(900, 600);
+        setSize(800, 600);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
-        JPanel topPanel = new JPanel(new GridLayout(4, 1));
+        JPanel topPanel = new JPanel(new BorderLayout());
+        JLabel titleLabel = new JLabel("Selected Movie: " + movieTitle, SwingConstants.LEFT);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        titleLabel.setBorder(BorderFactory.createEmptyBorder(10, 20, 0, 0));
+
+        JButton loginButton = new JButton("Login");
+        loginButton.setPreferredSize(new Dimension(100, 40));
+
+        topPanel.add(titleLabel, BorderLayout.CENTER);
+        topPanel.add(loginButton, BorderLayout.EAST);
+
+        JPanel infoPanel = new JPanel();
+        infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
+        infoPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+
         JLabel dateLabel = new JLabel("Date: " + showDate);
         JLabel hallLabel = new JLabel("Hall: " + hallName);
         JLabel timeLabel = new JLabel("Time: " + showTime);
@@ -47,25 +63,44 @@ public class SeatSelectionFrame extends JFrame {
         timeLabel.setFont(new Font("Arial", Font.BOLD, 14));
         priceLabel.setFont(new Font("Arial", Font.BOLD, 14));
 
-        topPanel.add(dateLabel);
-        topPanel.add(hallLabel);
-        topPanel.add(timeLabel);
-        topPanel.add(priceLabel);
+        infoPanel.add(dateLabel);
+        infoPanel.add(Box.createVerticalStrut(10));
+        infoPanel.add(hallLabel);
+        infoPanel.add(Box.createVerticalStrut(10));
+        infoPanel.add(timeLabel);
+        infoPanel.add(Box.createVerticalStrut(10));
+        infoPanel.add(priceLabel);
 
-        seatPanel = new JPanel(new GridLayout(10, 10, 5, 5)); // 10x10 как в макете
+        seatPanel = new JPanel(new GridLayout(8, 10, 5, 5));
+        seatPanel.setPreferredSize(new Dimension(500, 300));
         loadSeats();
+
+        JPanel seatsWrapperPanel = new JPanel(new BorderLayout());
+        JLabel screenLabel = new JLabel("Screen", SwingConstants.CENTER);
+        screenLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        screenLabel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+        seatsWrapperPanel.add(screenLabel, BorderLayout.NORTH);
+        seatsWrapperPanel.add(seatPanel, BorderLayout.CENTER);
 
         JButton checkoutButton = new JButton("Proceed to check out");
         checkoutButton.setPreferredSize(new Dimension(200, 40));
         checkoutButton.addActionListener(e -> {
-            JOptionPane.showMessageDialog(this, "Proceeding to checkout...", "Checkout", JOptionPane.INFORMATION_MESSAGE);
+            List<Seats> selectedSeatList = selectedSeats.stream()
+                    .map(button -> (Seats) button.getClientProperty("seat"))
+                    .toList();
+            new CheckoutFrame(
+                    movieTitle, showDate, showTime,
+                    showtimeId, hallName,
+                    selectedSeatList, totalPrice
+            );
         });
 
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         bottomPanel.add(checkoutButton);
 
-        add(topPanel, BorderLayout.WEST);
-        add(seatPanel, BorderLayout.CENTER);
+        add(topPanel, BorderLayout.NORTH);
+        add(infoPanel, BorderLayout.WEST);
+        add(seatsWrapperPanel, BorderLayout.CENTER);
         add(bottomPanel, BorderLayout.SOUTH);
 
         setVisible(true);
@@ -75,21 +110,34 @@ public class SeatSelectionFrame extends JFrame {
         SeatsController seatsController = new SeatsController();
         List<Seats> seats = seatsController.getSeatsByHallId(hallId);
 
+        Set<Integer> occupiedSeats = seatsController.getOccupiedSeatsByShowtime(showtimeId);
+
         for (Seats seat : seats) {
             JToggleButton seatButton = new JToggleButton();
-            seatButton.setPreferredSize(new Dimension(40, 40));
-            seatButton.setBackground(seat.getSeatType().equalsIgnoreCase("VIP") ? Color.ORANGE : Color.LIGHT_GRAY);
+            seatButton.setPreferredSize(new Dimension(30, 30));
+            seatButton.putClientProperty("seat", seat);
 
-            seatButton.addActionListener(e -> {
-                if (seatButton.isSelected()) {
-                    selectedSeats.add(seatButton);
-                    totalPrice += seat.getSeatType().equalsIgnoreCase("VIP") ? 10 : 5;
-                } else {
-                    selectedSeats.remove(seatButton);
-                    totalPrice -= seat.getSeatType().equalsIgnoreCase("VIP") ? 10 : 5;
-                }
-                priceLabel.setText("Price: $" + totalPrice);
-            });
+            if (occupiedSeats.contains(seat.getSeatId())) {
+                seatButton.setText("❌");
+                seatButton.setEnabled(false);
+            } else {
+                seatButton.setBackground(
+                        seat.getSeatType().equalsIgnoreCase("VIP")
+                                ? Color.ORANGE
+                                : Color.LIGHT_GRAY
+                );
+
+                seatButton.addActionListener(e -> {
+                    if (seatButton.isSelected()) {
+                        selectedSeats.add(seatButton);
+                        totalPrice += seat.getSeatType().equalsIgnoreCase("VIP") ? 10 : 5;
+                    } else {
+                        selectedSeats.remove(seatButton);
+                        totalPrice -= seat.getSeatType().equalsIgnoreCase("VIP") ? 10 : 5;
+                    }
+                    priceLabel.setText("Price: $" + totalPrice);
+                });
+            }
 
             seatPanel.add(seatButton);
         }

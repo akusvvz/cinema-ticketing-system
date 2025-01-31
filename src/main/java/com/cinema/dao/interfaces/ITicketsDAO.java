@@ -6,8 +6,8 @@ import java.util.List;
 public interface ITicketsDAO {
     List<Tickets> getAllTickets();
     Tickets getTicketById(int id);
-    List<Tickets> getTicketsByBookingId(int bookingId);
-    boolean addTicket(Tickets ticket);
+    int generateUniqueTicketId();
+    int saveTicket(int showtimeId, int seatId, int price);
     boolean updateTicket(Tickets ticket);
     boolean deleteTicket(int id);
 }

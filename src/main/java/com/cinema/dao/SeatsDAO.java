@@ -71,7 +71,7 @@ public class SeatsDAO implements ISeatsDAO {
     @Override
     public List<Seats> getSeatsByHallId(int hallId) {
         List<Seats> seats = new ArrayList<>();
-        String query = "SELECT * FROM seats WHERE hall_id = ?";
+        String query = "SELECT * FROM seats WHERE hall_id = ? ORDER BY row_number, seat_number;\n";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, hallId);

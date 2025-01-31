@@ -72,12 +72,11 @@ public class ShowtimesDAO implements IShowtimesDAO {
 
     public List<Showtimes> getShowtimesByMovieId(int movieId) {
         List<Showtimes> showtimes = new ArrayList<>();
-        String query = "SELECT s.show_date, s.show_time, s.hall_id, h.name AS hall_name\n" +
-                "FROM showtimes s\n" +
-                "JOIN halls h ON s.hall_id = h.hall_id\n" +
-                "WHERE s.movie_id = ?\n" +
-                "ORDER BY s.show_date, h.name, s.show_time;\n";
-
+        String query = "SELECT s.showtime_id, s.show_date, s.show_time, s.hall_id, h.name AS hall_name " +
+                "FROM showtimes s " +
+                "JOIN halls h ON s.hall_id = h.hall_id " +
+                "WHERE s.movie_id = ? " +
+                "ORDER BY s.show_date, h.name, s.show_time";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, movieId);
@@ -85,6 +84,7 @@ public class ShowtimesDAO implements IShowtimesDAO {
 
             while (resultSet.next()) {
                 Showtimes showtime = new Showtimes();
+                showtime.setShowtimeId(resultSet.getInt("showtime_id"));
                 showtime.setShowDate(LocalDate.parse(resultSet.getDate("show_date").toString()));
                 showtime.setShowTime(LocalTime.parse(resultSet.getTime("show_time").toString().substring(0, 5)));
                 showtime.setHallId(resultSet.getInt("hall_id"));
