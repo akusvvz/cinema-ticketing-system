@@ -35,7 +35,6 @@ public class TicketsDAO implements ITicketsDAO {
                 ticket.setShowtimeId(resultSet.getInt("showtime_id"));
                 ticket.setSeatId(resultSet.getInt("seat_id"));
                 ticket.setPrice(resultSet.getDouble("price"));
-                ticket.setStatus(resultSet.getString("status"));
                 tickets.add(ticket);
             }
 
@@ -60,7 +59,6 @@ public class TicketsDAO implements ITicketsDAO {
                 ticket.setShowtimeId(resultSet.getInt("showtime_id"));
                 ticket.setSeatId(resultSet.getInt("seat_id"));
                 ticket.setPrice(resultSet.getDouble("price"));
-                ticket.setStatus(resultSet.getString("status"));
             }
 
         } catch (SQLException e) {
@@ -97,7 +95,7 @@ public class TicketsDAO implements ITicketsDAO {
 
     @Override
     public int saveTicket(int showtimeId, int seatId, int price) {
-        String query = "INSERT INTO tickets (ticket_id, showtime_id, seat_id, price, status) " + "VALUES (?, ?, ?, ?, 'Active')";
+        String query = "INSERT INTO tickets (ticket_id, showtime_id, seat_id, price) " + "VALUES (?, ?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             int ticketId = generateUniqueTicketId();
             statement.setInt(1, ticketId);
@@ -114,14 +112,13 @@ public class TicketsDAO implements ITicketsDAO {
 
     @Override
     public boolean updateTicket(Tickets ticket) {
-        String query = "UPDATE tickets SET showtime_id = ?, seat_id = ?, price = ?, status = ? " + "WHERE ticket_id = ?";
+        String query = "UPDATE tickets SET showtime_id = ?, seat_id = ?, price = ? " + "WHERE ticket_id = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, ticket.getShowtimeId());
             statement.setInt(2, ticket.getSeatId());
             statement.setDouble(3, ticket.getPrice());
-            statement.setString(4, ticket.getStatus());
-            statement.setInt(5, ticket.getTicketId());
+            statement.setInt(4, ticket.getTicketId());
             int rowsUpdated = statement.executeUpdate();
             return rowsUpdated > 0;
 

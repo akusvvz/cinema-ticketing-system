@@ -5,16 +5,14 @@ public class Tickets {
     private int showtimeId;
     private int seatId;
     private double price;
-    private String status;
 
     public Tickets() {}
 
-    public Tickets(int ticketId, int showtimeId, int seatId, double price, String status) {
+    public Tickets(int ticketId, int showtimeId, int seatId, double price) {
         this.ticketId = ticketId;
         this.showtimeId = showtimeId;
         this.seatId = seatId;
         this.price = price;
-        this.status = status;
     }
 
     public int getTicketId() {
@@ -49,14 +47,6 @@ public class Tickets {
         this.price = price;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     @Override
     public String toString() {
         return "Tickets{" +
@@ -64,7 +54,6 @@ public class Tickets {
                 ", showtimeId=" + showtimeId +
                 ", seatId=" + seatId +
                 ", price=" + price +
-                ", status='" + status + '\'' +
                 '}';
     }
 }
