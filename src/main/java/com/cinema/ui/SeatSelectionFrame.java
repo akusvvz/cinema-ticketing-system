@@ -43,8 +43,9 @@ public class SeatSelectionFrame extends JFrame {
         titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
         titleLabel.setBorder(BorderFactory.createEmptyBorder(10, 20, 0, 0));
 
-        JButton loginButton = new JButton("Login");
-        loginButton.setPreferredSize(new Dimension(100, 40));
+        JButton loginButton = new JButton("Admin Panel");
+        loginButton.setPreferredSize(new Dimension(200, 40));
+        loginButton.addActionListener(e -> new LoginFrame());
 
         topPanel.add(titleLabel, BorderLayout.CENTER);
         topPanel.add(loginButton, BorderLayout.EAST);
@@ -71,8 +72,13 @@ public class SeatSelectionFrame extends JFrame {
         infoPanel.add(Box.createVerticalStrut(10));
         infoPanel.add(priceLabel);
 
-        seatPanel = new JPanel(new GridLayout(8, 10, 5, 5));
-        seatPanel.setPreferredSize(new Dimension(500, 300));
+        if (hallName.equalsIgnoreCase("Hall VIP") || hallId == 5) {
+            seatPanel = new JPanel(new GridLayout(4, 6, 5, 5));
+            seatPanel.setPreferredSize(new Dimension(300, 200));
+        } else {
+            seatPanel = new JPanel(new GridLayout(8, 10, 5, 5));
+            seatPanel.setPreferredSize(new Dimension(500, 300));
+        }
         loadSeats();
 
         JPanel seatsWrapperPanel = new JPanel(new BorderLayout());

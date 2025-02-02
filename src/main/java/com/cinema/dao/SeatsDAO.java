@@ -21,30 +21,6 @@ public class SeatsDAO implements ISeatsDAO {
     }
 
     @Override
-    public List<Seats> getAllSeats() {
-        List<Seats> seats = new ArrayList<>();
-        String query = "SELECT * FROM seats";
-
-        try (PreparedStatement statement = connection.prepareStatement(query);
-             ResultSet resultSet = statement.executeQuery()) {
-
-            while (resultSet.next()) {
-                Seats seat = new Seats();
-                seat.setSeatId(resultSet.getInt("seat_id"));
-                seat.setHallId(resultSet.getInt("hall_id"));
-                seat.setRowNumber(resultSet.getInt("row_number"));
-                seat.setSeatNumber(resultSet.getInt("seat_number"));
-                seat.setSeatType(resultSet.getString("seat_type"));
-                seats.add(seat);
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return seats;
-    }
-
-    @Override
     public Seats getSeatById(int id) {
         Seats seat = null;
         String query = "SELECT * FROM seats WHERE seat_id = ?";
@@ -93,55 +69,19 @@ public class SeatsDAO implements ISeatsDAO {
         return seats;
     }
 
-    @Override
-    public boolean addSeat(Seats seat) {
-        String query = "INSERT INTO seats (hall_id, row_number, seat_number, seat_type) VALUES (?, ?, ?, ?)";
-
+    public int getSeatIdByRowAndNumber(int hallId, int row, int number) {
+        String query = "SELECT seat_id FROM seats WHERE hall_id = ? AND row_number = ? AND seat_number = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setInt(1, seat.getHallId());
-            statement.setInt(2, seat.getRowNumber());
-            statement.setInt(3, seat.getSeatNumber());
-            statement.setString(4, seat.getSeatType());
-            statement.executeUpdate();
-            return true;
-
+            statement.setInt(1, hallId);
+            statement.setInt(2, row);
+            statement.setInt(3, number);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("seat_id");
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
-    }
-
-    @Override
-    public boolean updateSeat(Seats seat) {
-        String query = "UPDATE seats SET hall_id = ?, row_number = ?, seat_number = ?, seat_type = ? WHERE seat_id = ?";
-
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setInt(1, seat.getHallId());
-            statement.setInt(2, seat.getRowNumber());
-            statement.setInt(3, seat.getSeatNumber());
-            statement.setString(4, seat.getSeatType());
-            statement.setInt(5, seat.getSeatId());
-            statement.executeUpdate();
-            return true;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    @Override
-    public boolean deleteSeat(int id) {
-        String query = "DELETE FROM seats WHERE seat_id = ?";
-
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setInt(1, id);
-            statement.executeUpdate();
-            return true;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
+        return -1;
     }
 }

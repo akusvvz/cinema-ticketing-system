@@ -93,15 +93,30 @@ public class TicketsDAO implements ITicketsDAO {
         return false;
     }
 
+    public boolean isSeatOccupied(int showtimeId, int seatId) {
+        String query = "SELECT COUNT(*) FROM tickets WHERE showtime_id = ? AND seat_id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, showtimeId);
+            statement.setInt(2, seatId);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     @Override
-    public int saveTicket(int showtimeId, int seatId, int price) {
+    public int saveTicket(int showtimeId, int seatId, double price) {
         String query = "INSERT INTO tickets (ticket_id, showtime_id, seat_id, price) " + "VALUES (?, ?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             int ticketId = generateUniqueTicketId();
             statement.setInt(1, ticketId);
             statement.setInt(2, showtimeId);
             statement.setInt(3, seatId);
-            statement.setInt(4, price);
+            statement.setDouble(4, price);
             statement.executeUpdate();
             return ticketId;
         } catch (SQLException e) {

@@ -7,7 +7,7 @@ public interface ITicketsDAO {
     List<Tickets> getAllTickets();
     Tickets getTicketById(int id);
     int generateUniqueTicketId();
-    int saveTicket(int showtimeId, int seatId, int price);
+    int saveTicket(int showtimeId, int seatId, double price);
     boolean updateTicket(Tickets ticket);
     boolean deleteTicket(int id);
 }

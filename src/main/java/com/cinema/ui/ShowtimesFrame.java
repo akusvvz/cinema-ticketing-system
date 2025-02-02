@@ -29,8 +29,9 @@ public class ShowtimesFrame extends JFrame {
         titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
         titleLabel.setBorder(BorderFactory.createEmptyBorder(10, 20, 0, 0));
 
-        JButton loginButton = new JButton("Login");
-        loginButton.setPreferredSize(new Dimension(100, 40));
+        JButton loginButton = new JButton("Admin Panel");
+        loginButton.setPreferredSize(new Dimension(200, 40));
+        loginButton.addActionListener(e -> new LoginFrame());
 
         topPanel.add(titleLabel, BorderLayout.CENTER);
         topPanel.add(loginButton, BorderLayout.EAST);

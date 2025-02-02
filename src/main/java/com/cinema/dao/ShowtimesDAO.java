@@ -24,8 +24,10 @@ public class ShowtimesDAO implements IShowtimesDAO {
     @Override
     public List<Showtimes> getAllShowtimes() {
         List<Showtimes> showtimes = new ArrayList<>();
-        String query = "SELECT * FROM showtimes";
-
+        String query = "SELECT s.*, m.title AS movie_title, h.name AS hall_name " +
+                "FROM showtimes s " +
+                "JOIN movies m ON s.movie_id = m.movie_id " +
+                "JOIN halls h ON s.hall_id = h.hall_id";
         try (PreparedStatement statement = connection.prepareStatement(query);
              ResultSet resultSet = statement.executeQuery()) {
 
@@ -36,9 +38,10 @@ public class ShowtimesDAO implements IShowtimesDAO {
                 showtime.setHallId(resultSet.getInt("hall_id"));
                 showtime.setShowDate(resultSet.getDate("show_date").toLocalDate());
                 showtime.setShowTime(resultSet.getTime("show_time").toLocalTime());
+                showtime.setMovieTitle(resultSet.getString("movie_title"));
+                showtime.setHallName(resultSet.getString("hall_name"));
                 showtimes.add(showtime);
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -48,8 +51,11 @@ public class ShowtimesDAO implements IShowtimesDAO {
     @Override
     public Showtimes getShowtimeById(int id) {
         Showtimes showtime = null;
-        String query = "SELECT * FROM showtimes WHERE showtime_id = ?";
-
+        String query = "SELECT s.*, m.title AS movie_title, h.name AS hall_name " +
+                "FROM showtimes s " +
+                "JOIN movies m ON s.movie_id = m.movie_id " +
+                "JOIN halls h ON s.hall_id = h.hall_id " +
+                "WHERE s.showtime_id = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
@@ -61,8 +67,9 @@ public class ShowtimesDAO implements IShowtimesDAO {
                 showtime.setHallId(resultSet.getInt("hall_id"));
                 showtime.setShowDate(resultSet.getDate("show_date").toLocalDate());
                 showtime.setShowTime(resultSet.getTime("show_time").toLocalTime());
+                showtime.setMovieTitle(resultSet.getString("movie_title"));
+                showtime.setHallName(resultSet.getString("hall_name"));
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }

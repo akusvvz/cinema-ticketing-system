@@ -39,10 +39,6 @@ public class Halls {
 
     @Override
     public String toString() {
-        return "Halls{" +
-                "hallId=" + hallId +
-                ", name='" + name + '\'' +
-                ", capacity=" + capacity +
-                '}';
+        return name;
     }
 }

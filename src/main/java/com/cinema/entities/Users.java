@@ -2,16 +2,16 @@ package com.cinema.entities;
 
 public class Users {
     private int userId;
-    private String username;
+    private String name;
     private String password;
     private String email;
     private String role;
 
     public Users() {}
 
-    public Users(int userId, String username, String password, String email, String role) {
+    public Users(int userId, String name, String password, String email, String role) {
         this.userId = userId;
-        this.username = username;
+        this.name = name;
         this.password = password;
         this.email = email;
         this.role = role;
@@ -25,12 +25,12 @@ public class Users {
         this.userId = userId;
     }
 
-    public String getUsername() {
-        return username;
+    public String getName() {
+        return name;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setName(String username) {
+        this.name = username;
     }
 
     public String getPassword() {
@@ -61,7 +61,7 @@ public class Users {
     public String toString() {
         return "Users{" +
                 "userId=" + userId +
-                ", username='" + username + '\'' +
+                ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", role='" + role + '\'' +
                 '}';

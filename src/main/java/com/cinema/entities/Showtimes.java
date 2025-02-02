@@ -10,6 +10,7 @@ public class Showtimes {
     private LocalDate showDate;
     private LocalTime showTime;
     private String hallName;
+    private String movieTitle;
 
     public Showtimes() {}
 
@@ -30,6 +31,10 @@ public class Showtimes {
     }
 
     public LocalDate getShowDate() { return showDate; }
+
+    public String getMovieTitle() { return movieTitle; }
+
+    public void setMovieTitle(String movieTitle) { this.movieTitle = movieTitle; }
 
     public void setShowDate(LocalDate showDate) { this.showDate = showDate; }
 
@@ -61,12 +66,6 @@ public class Showtimes {
 
     @Override
     public String toString() {
-        return "Showtimes{" +
-                "showtimeId=" + showtimeId +
-                ", movieId=" + movieId +
-                ", hallId=" + hallId +
-                ", showDate=" + showDate +
-                ", showDate=" + showTime +
-                '}';
+        return movieTitle + " | " + showDate + " | " + showTime + " | " + hallName;
     }
 }

@@ -24,8 +24,9 @@ public class MainFrame extends JFrame {
         titleLabel.setBorder(BorderFactory.createEmptyBorder(10, 20, 0, 0));
 
 
-        JButton loginButton = new JButton("Login");
-        loginButton.setPreferredSize(new Dimension(100, 40));
+        JButton loginButton = new JButton("Admin Panel");
+        loginButton.setPreferredSize(new Dimension(200, 40));
+        loginButton.addActionListener(e -> new LoginFrame());
 
         topPanel.add(titleLabel, BorderLayout.WEST);
         topPanel.add(loginButton, BorderLayout.EAST);

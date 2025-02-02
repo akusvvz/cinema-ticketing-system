@@ -31,7 +31,7 @@ public class UsersDAO implements IUsersDAO {
             while (resultSet.next()) {
                 Users user = new Users();
                 user.setUserId(resultSet.getInt("user_id"));
-                user.setUsername(resultSet.getString("username"));
+                user.setName(resultSet.getString("name"));
                 user.setPassword(resultSet.getString("password"));
                 user.setEmail(resultSet.getString("email"));
                 user.setRole(resultSet.getString("role"));
@@ -56,7 +56,7 @@ public class UsersDAO implements IUsersDAO {
             if (resultSet.next()) {
                 user = new Users();
                 user.setUserId(resultSet.getInt("user_id"));
-                user.setUsername(resultSet.getString("username"));
+                user.setName(resultSet.getString("name"));
                 user.setPassword(resultSet.getString("password"));
                 user.setEmail(resultSet.getString("email"));
                 user.setRole(resultSet.getString("role"));
@@ -69,11 +69,35 @@ public class UsersDAO implements IUsersDAO {
     }
 
     @Override
-    public boolean addUser(Users user) {
-        String query = "INSERT INTO users (username, password, email, role) VALUES (?, ?, ?, ?)";
+    public Users authenticateUser(String email, String password) {
+        String query = "SELECT * FROM users WHERE email = ? AND password = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setString(1, user.getUsername());
+            statement.setString(1, email);
+            statement.setString(2, password);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                return new Users(
+                        resultSet.getInt("user_id"),
+                        resultSet.getString("name"),
+                        resultSet.getString("password"),
+                        resultSet.getString("email"),
+                        resultSet.getString("role")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public boolean addUser(Users user) {
+        String query = "INSERT INTO users (name, password, email, role) VALUES (?, ?, ?, ?)";
+
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, user.getName());
             statement.setString(2, user.getPassword());
             statement.setString(3, user.getEmail());
             statement.setString(4, user.getRole());
@@ -88,10 +112,10 @@ public class UsersDAO implements IUsersDAO {
 
     @Override
     public boolean updateUser(Users user) {
-        String query = "UPDATE users SET username = ?, password = ?, email = ?, role = ? WHERE user_id = ?";
+        String query = "UPDATE users SET name = ?, password = ?, email = ?, role = ? WHERE user_id = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setString(1, user.getUsername());
+            statement.setString(1, user.getName());
             statement.setString(2, user.getPassword());
             statement.setString(3, user.getEmail());
             statement.setString(4, user.getRole());
@@ -119,4 +143,5 @@ public class UsersDAO implements IUsersDAO {
         }
         return false;
     }
+
 }
