@@ -1,5 +1,6 @@
 package com.cinema.entities;
 
+// represents user entity
 public class Users {
     private int userId;
     private String name;
@@ -17,6 +18,7 @@ public class Users {
         this.role = role;
     }
 
+    // getters and setters
     public int getUserId() {
         return userId;
     }
@@ -57,6 +59,7 @@ public class Users {
         this.role = role;
     }
 
+    // returns a string representation of the user
     @Override
     public String toString() {
         return "Users{" +

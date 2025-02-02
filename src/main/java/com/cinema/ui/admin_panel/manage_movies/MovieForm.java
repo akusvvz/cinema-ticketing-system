@@ -6,6 +6,7 @@ import com.cinema.entities.Movies;
 import javax.swing.*;
 import java.awt.*;
 
+// form for adding or editing a movie
 public class MovieForm extends JDialog {
     private JTextField titleField;
     private JTextField genreField;
@@ -21,10 +22,12 @@ public class MovieForm extends JDialog {
         this.movie = movie;
         moviesDAO = new MoviesDAO();
 
+        // set up dialog properties
         setSize(400, 300);
         setLocationRelativeTo(parent);
         setLayout(new GridLayout(5, 2, 10, 10));
 
+        // create input fields
         add(new JLabel("Title:"));
         titleField = new JTextField();
         add(titleField);
@@ -41,11 +44,13 @@ public class MovieForm extends JDialog {
         ratingField = new JTextField();
         add(ratingField);
 
+        // save button to add or update a movie
         saveButton = new JButton(movie == null ? "Add Movie" : "Update Movie");
         saveButton.addActionListener(e -> saveMovie());
         add(new JLabel());
         add(saveButton);
 
+        // populate fields if editing an existing movie
         if (movie != null) {
             titleField.setText(movie.getTitle());
             genreField.setText(movie.getGenre());
@@ -56,6 +61,7 @@ public class MovieForm extends JDialog {
         setVisible(true);
     }
 
+    // saves the movie (either adds a new one or updates an existing one)
     private void saveMovie() {
         try {
             String title = titleField.getText().trim();
@@ -69,7 +75,7 @@ public class MovieForm extends JDialog {
             }
 
             if (movie == null) {
-                // Добавление нового фильма (ID генерируется автоматически)
+                // adding a new movie (ID is generated automatically)
                 Movies newMovie = new Movies();
                 newMovie.setTitle(title);
                 newMovie.setGenre(genre);
@@ -82,7 +88,7 @@ public class MovieForm extends JDialog {
                     JOptionPane.showMessageDialog(this, "Failed to add movie.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             } else {
-                // Редактирование существующего фильма
+                // updating an existing movie
                 movie.setTitle(title);
                 movie.setGenre(genre);
                 movie.setDuration(duration);

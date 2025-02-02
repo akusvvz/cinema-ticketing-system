@@ -3,6 +3,7 @@ package com.cinema.entities;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+// represents a movie showtime in the cinema
 public class Showtimes {
     private int showtimeId;
     private int movieId;
@@ -22,6 +23,7 @@ public class Showtimes {
         this.showTime = showTime;
     }
 
+    // getters and setters
     public int getShowtimeId() {
         return showtimeId;
     }
@@ -64,6 +66,7 @@ public class Showtimes {
         this.hallName = hallName;
     }
 
+    // returns a formatted string representation of the showtime
     @Override
     public String toString() {
         return movieTitle + " | " + showDate + " | " + showTime + " | " + hallName;

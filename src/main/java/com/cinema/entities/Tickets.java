@@ -1,5 +1,6 @@
 package com.cinema.entities;
 
+// tickets entity
 public class Tickets {
     private int ticketId;
     private int showtimeId;
@@ -15,6 +16,7 @@ public class Tickets {
         this.price = price;
     }
 
+    // getters and setters
     public int getTicketId() {
         return ticketId;
     }
@@ -47,6 +49,7 @@ public class Tickets {
         this.price = price;
     }
 
+    // returns a string representation of the ticket
     @Override
     public String toString() {
         return "Tickets{" +

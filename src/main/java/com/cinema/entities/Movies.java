@@ -1,5 +1,6 @@
 package com.cinema.entities;
 
+// represents a movie entity
 public class Movies {
     private int movieId;
     private String title;
@@ -17,6 +18,7 @@ public class Movies {
         this.rating = rating;
     }
 
+    // getters and setters
     public int getMovieId() {
         return movieId;
     }
@@ -57,6 +59,7 @@ public class Movies {
         this.rating = rating;
     }
 
+    // returns the movie title as a string representation
     @Override
     public String toString() {
         return title;

@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+// window for displaying available showtimes for a selected movie
 public class ShowtimesFrame extends JFrame {
     private String movieTitle;
     private int movieId;
@@ -18,12 +19,14 @@ public class ShowtimesFrame extends JFrame {
         this.movieId = movieId;
         this.movieTitle = movieTitle;
 
+        // set up window properties
         setTitle("Showtimes - " + movieTitle);
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
+        // create top panel with movie title and admin panel button
         JPanel topPanel = new JPanel(new BorderLayout());
         JLabel titleLabel = new JLabel("Selected Movie: " + movieTitle, SwingConstants.LEFT);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
@@ -36,23 +39,27 @@ public class ShowtimesFrame extends JFrame {
         topPanel.add(titleLabel, BorderLayout.CENTER);
         topPanel.add(loginButton, BorderLayout.EAST);
 
+        // create panel for listing showtimes
         JPanel showtimePanel = new JPanel();
         JScrollPane scrollPane = new JScrollPane(showtimePanel);
         scrollPane.setBorder(null);
         scrollPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 0));
         showtimePanel.setLayout(new BoxLayout(showtimePanel, BoxLayout.Y_AXIS));
 
+        // retrieve showtimes for the selected movie
         ShowtimesController showtimeController = new ShowtimesController();
         List<Showtimes> showtimes = showtimeController.getShowtimesByMovieId(movieId);
 
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("d MMMM");
 
+        // group showtimes by date and hall
         Map<String, Map<String, List<Showtimes>>> groupedShowtimes = showtimes.stream()
                 .collect(Collectors.groupingBy(
                         s -> s.getShowDate().format(dateFormatter),
                         Collectors.groupingBy(Showtimes::getHallName)
                 ));
 
+        // create buttons for each showtime grouped by date and hall
         for (String date : groupedShowtimes.keySet()) {
             for (String hall : groupedShowtimes.get(date).keySet()) {
                 JPanel rowPanel = new JPanel(new BorderLayout());
@@ -96,6 +103,7 @@ public class ShowtimesFrame extends JFrame {
             }
         }
 
+        // add components to main frame
         add(topPanel, BorderLayout.NORTH);
         add(scrollPane, BorderLayout.CENTER);
 

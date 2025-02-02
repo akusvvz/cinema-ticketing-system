@@ -117,10 +117,23 @@ Implemented using **Java Swing**:
 ### 8.1 Add/Edit Form
 ![img_1.png](pics/img_8.png)
 
+### 9. Manage Movies
+![img.png](pics/img_9.png)
 
+### 9.1 Add/Edit Form
+![img_1.png](pics/img_10.png)
 
+### 10. Manage Showtimes
+![img_2.png](pics/img_11.png)
 
+### 10.1 Add/Edit Form
+![img_3.png](pics/img_12.png)
+![img_4.png](pics/img_13.png)
 
+### 11. Manage Users
+![img_5.png](pics/img_14.png)
 
-
+### 11.1 Add/Edit Form
+![img_6.png](pics/img_15.png)
+![img_7.png](pics/img_16.png)
 

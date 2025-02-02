@@ -6,6 +6,7 @@ import com.cinema.entities.Users;
 import javax.swing.*;
 import java.awt.*;
 
+// form for adding or editing a user
 public class UserForm extends JDialog {
     private JTextField nameField;
     private JPasswordField passwordField;
@@ -25,32 +26,36 @@ public class UserForm extends JDialog {
         setLocationRelativeTo(parent);
         setLayout(new GridLayout(5, 2, 10, 10));
 
+        // input field for name
         add(new JLabel("Name:"));
         nameField = new JTextField();
         add(nameField);
 
+        // input field for password
         add(new JLabel("Password:"));
         passwordField = new JPasswordField();
         add(passwordField);
 
+        // input field for email
         add(new JLabel("Email:"));
         emailField = new JTextField();
         add(emailField);
 
+        // dropdown for selecting user role
         add(new JLabel("Role:"));
         roleDropdown = new JComboBox<>();
-        // Добавляем только три варианта
         roleDropdown.addItem("admin");
         roleDropdown.addItem("manager");
         roleDropdown.addItem("staff");
         add(roleDropdown);
 
+        // save button to add or update user
         saveButton = new JButton(user == null ? "Add User" : "Update User");
         saveButton.addActionListener(e -> saveUser());
-        add(new JLabel()); // Пустая метка для выравнивания
+        add(new JLabel()); // empty label for alignment
         add(saveButton);
 
-        // Если редактирование – предзаполняем поля
+        // pre-fill fields if editing an existing user
         if (user != null) {
             nameField.setText(user.getName());
             passwordField.setText(user.getPassword());
@@ -61,6 +66,7 @@ public class UserForm extends JDialog {
         setVisible(true);
     }
 
+    // saves or updates user information
     private void saveUser() {
         try {
             String name = nameField.getText().trim();
@@ -68,13 +74,14 @@ public class UserForm extends JDialog {
             String email = emailField.getText().trim();
             String role = (String) roleDropdown.getSelectedItem();
 
+            // validate input fields
             if (name.isEmpty() || password.isEmpty() || email.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Please fill in all fields.", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
             if (user == null) {
-                // Добавление нового пользователя
+                // adding a new user
                 Users newUser = new Users();
                 newUser.setName(name);
                 newUser.setPassword(password);
@@ -87,7 +94,7 @@ public class UserForm extends JDialog {
                     JOptionPane.showMessageDialog(this, "Failed to add user.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             } else {
-                // Редактирование существующего пользователя
+                // updating an existing user
                 user.setName(name);
                 user.setPassword(password);
                 user.setEmail(email);

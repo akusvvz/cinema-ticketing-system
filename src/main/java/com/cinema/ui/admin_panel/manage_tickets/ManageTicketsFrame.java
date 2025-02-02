@@ -13,6 +13,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.List;
 
+// frame for managing tickets (add, edit, delete)
 public class ManageTicketsFrame extends JFrame {
     private JTable ticketsTable;
     private DefaultTableModel tableModel;
@@ -28,11 +29,13 @@ public class ManageTicketsFrame extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
 
+        // title label for the frame
         JLabel titleLabel = new JLabel("Manage Tickets");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 22));
         titleLabel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 0));
         add(titleLabel, BorderLayout.NORTH);
 
+        // table configuration
         String[] columnNames = {"Ticket №", "Seat row", "Seat number", "Price", "Showtime"};
         tableModel = new DefaultTableModel(columnNames, 0);
         ticketsTable = new JTable(tableModel);
@@ -44,12 +47,14 @@ public class ManageTicketsFrame extends JFrame {
         JScrollPane scrollPane = new JScrollPane(ticketsTable);
         add(scrollPane, BorderLayout.CENTER);
 
+        // initialize DAOs
         ticketsDAO = new TicketsDAO();
         seatsDAO = new SeatsDAO();
         showtimesDAO = new ShowtimesDAO();
         moviesDAO = new MoviesDAO();
         loadTickets();
 
+        // buttons for managing tickets
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         JButton addButton = new JButton("Add Ticket");
         JButton editButton = new JButton("✎");
@@ -67,6 +72,7 @@ public class ManageTicketsFrame extends JFrame {
         setVisible(true);
     }
 
+    // loads tickets into the table
     public void loadTickets() {
         List<Tickets> tickets = ticketsDAO.getAllTickets();
         tableModel.setRowCount(0);
@@ -88,10 +94,12 @@ public class ManageTicketsFrame extends JFrame {
         }
     }
 
+    // opens the form to add or edit a ticket
     private void openTicketForm(Tickets ticket) {
         new TicketForm(this, ticket);
     }
 
+    // retrieves selected ticket for editing
     private void editSelectedTicket() {
         int selectedRow = ticketsTable.getSelectedRow();
         if (selectedRow == -1) {
@@ -104,6 +112,7 @@ public class ManageTicketsFrame extends JFrame {
         openTicketForm(ticket);
     }
 
+    // deletes the selected ticket
     private void deleteSelectedTicket() {
         int selectedRow = ticketsTable.getSelectedRow();
         if (selectedRow == -1) {

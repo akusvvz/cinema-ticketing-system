@@ -1,5 +1,6 @@
 package com.cinema.entities;
 
+// represent a seat in a cinema hall
 public class Seats {
     private int seatId;
     private int hallId;
@@ -17,6 +18,7 @@ public class Seats {
         this.seatType = seatType;
     }
 
+    // getters and setters
     public int getSeatId() {
         return seatId;
     }
@@ -57,6 +59,7 @@ public class Seats {
         this.seatType = seatType;
     }
 
+    // returns a string representation of the seat
     @Override
     public String toString() {
         return "Seats{" +

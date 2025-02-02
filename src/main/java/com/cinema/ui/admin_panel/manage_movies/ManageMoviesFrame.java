@@ -8,23 +8,27 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.List;
 
+// frame for managing movies (adding, editing, deleting)
 public class ManageMoviesFrame extends JFrame {
     private JTable moviesTable;
     private DefaultTableModel tableModel;
     private MoviesDAO moviesDAO;
 
     public ManageMoviesFrame() {
+        // set up frame properties
         setTitle("Manage Movies");
         setSize(800, 400);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
 
+        // title label
         JLabel titleLabel = new JLabel("Manage Movies");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 22));
         titleLabel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 0));
         add(titleLabel, BorderLayout.NORTH);
 
+        // set up movies table
         String[] columnNames = {"ID", "Title", "Genre", "Duration", "Rating (IMDb)"};
         tableModel = new DefaultTableModel(columnNames, 0);
         moviesTable = new JTable(tableModel);
@@ -34,6 +38,7 @@ public class ManageMoviesFrame extends JFrame {
         moviesDAO = new MoviesDAO();
         loadMovies();
 
+        // panel for buttons
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         JButton addButton = new JButton("Add Movie");
         JButton editButton = new JButton("✎");
@@ -51,6 +56,7 @@ public class ManageMoviesFrame extends JFrame {
         setVisible(true);
     }
 
+    // loads movies from database into table
     public void loadMovies() {
         List<Movies> movies = moviesDAO.getAllMovies();
         tableModel.setRowCount(0);
@@ -65,10 +71,12 @@ public class ManageMoviesFrame extends JFrame {
         }
     }
 
+    // opens movie form for adding or editing
     private void openMovieForm(Movies movie) {
         new MovieForm(this, movie);
     }
 
+    // edits selected movie
     private void editSelectedMovie() {
         int selectedRow = moviesTable.getSelectedRow();
         if (selectedRow == -1) {
@@ -80,6 +88,7 @@ public class ManageMoviesFrame extends JFrame {
         openMovieForm(movie);
     }
 
+    // deletes selected movie
     private void deleteSelectedMovie() {
         int selectedRow = moviesTable.getSelectedRow();
         if (selectedRow == -1) {

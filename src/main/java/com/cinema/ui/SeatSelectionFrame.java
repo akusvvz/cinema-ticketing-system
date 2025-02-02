@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.HashSet;
 import java.util.Set;
 
+// window for seat selection during ticket booking
 public class SeatSelectionFrame extends JFrame {
     private int movieId;
     private String movieTitle;
@@ -32,12 +33,14 @@ public class SeatSelectionFrame extends JFrame {
         this.hallId = hallId;
         this.showtimeId = showtimeId;
 
+        // set up window properties
         setTitle("Seat Selection - " + movieTitle);
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
+        // create top panel with movie title and admin panel button
         JPanel topPanel = new JPanel(new BorderLayout());
         JLabel titleLabel = new JLabel("Selected Movie: " + movieTitle, SwingConstants.LEFT);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
@@ -50,6 +53,7 @@ public class SeatSelectionFrame extends JFrame {
         topPanel.add(titleLabel, BorderLayout.CENTER);
         topPanel.add(loginButton, BorderLayout.EAST);
 
+        // create panel for displaying movie details and total price
         JPanel infoPanel = new JPanel();
         infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
         infoPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
@@ -72,6 +76,7 @@ public class SeatSelectionFrame extends JFrame {
         infoPanel.add(Box.createVerticalStrut(10));
         infoPanel.add(priceLabel);
 
+        // adjust seat grid size based on hall type
         if (hallName.equalsIgnoreCase("Hall VIP") || hallId == 5) {
             seatPanel = new JPanel(new GridLayout(4, 6, 5, 5));
             seatPanel.setPreferredSize(new Dimension(300, 200));
@@ -81,6 +86,7 @@ public class SeatSelectionFrame extends JFrame {
         }
         loadSeats();
 
+        // create panel for seat selection with a screen label
         JPanel seatsWrapperPanel = new JPanel(new BorderLayout());
         JLabel screenLabel = new JLabel("Screen", SwingConstants.CENTER);
         screenLabel.setFont(new Font("Arial", Font.BOLD, 16));
@@ -88,6 +94,7 @@ public class SeatSelectionFrame extends JFrame {
         seatsWrapperPanel.add(screenLabel, BorderLayout.NORTH);
         seatsWrapperPanel.add(seatPanel, BorderLayout.CENTER);
 
+        // button to proceed to checkout
         JButton checkoutButton = new JButton("Proceed to check out");
         checkoutButton.setPreferredSize(new Dimension(200, 40));
         checkoutButton.addActionListener(e -> {
@@ -104,6 +111,7 @@ public class SeatSelectionFrame extends JFrame {
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         bottomPanel.add(checkoutButton);
 
+        // add components to main frame
         add(topPanel, BorderLayout.NORTH);
         add(infoPanel, BorderLayout.WEST);
         add(seatsWrapperPanel, BorderLayout.CENTER);
@@ -112,6 +120,7 @@ public class SeatSelectionFrame extends JFrame {
         setVisible(true);
     }
 
+    // load seats from the database and create interactive seat buttons
     private void loadSeats() {
         SeatsController seatsController = new SeatsController();
         List<Seats> seats = seatsController.getSeatsByHallId(hallId);
@@ -123,6 +132,7 @@ public class SeatSelectionFrame extends JFrame {
             seatButton.setPreferredSize(new Dimension(30, 30));
             seatButton.putClientProperty("seat", seat);
 
+            // mark occupied seats as unavailable
             if (occupiedSeats.contains(seat.getSeatId())) {
                 seatButton.setText("❌");
                 seatButton.setEnabled(false);
@@ -133,6 +143,7 @@ public class SeatSelectionFrame extends JFrame {
                                 : Color.LIGHT_GRAY
                 );
 
+                // handle seat selection and update total price
                 seatButton.addActionListener(e -> {
                     if (seatButton.isSelected()) {
                         selectedSeats.add(seatButton);

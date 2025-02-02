@@ -11,6 +11,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
+// form for adding or updating ticket details
 public class TicketForm extends JDialog {
     private JTextField seatRowField;
     private JTextField seatNumberField;
@@ -32,6 +33,7 @@ public class TicketForm extends JDialog {
         setLocationRelativeTo(parent);
         setLayout(new GridLayout(5, 2, 10, 10));
 
+        // input fields for seat row, number, price, and showtime
         add(new JLabel("Seat row:"));
         seatRowField = new JTextField();
         add(seatRowField);
@@ -49,10 +51,12 @@ public class TicketForm extends JDialog {
         loadShowtimes();
         add(showtimeDropdown);
 
+        // save button for adding or updating a ticket
         JButton saveButton = new JButton(ticket == null ? "Add Ticket" : "Update Ticket");
         saveButton.addActionListener(e -> saveTicket());
         add(saveButton);
 
+        // if updating, populate fields with existing ticket data
         if (ticket != null) {
             Seats seat = seatsDAO.getSeatById(ticket.getSeatId());
             seatRowField.setText(String.valueOf(seat.getRowNumber()));
@@ -71,6 +75,7 @@ public class TicketForm extends JDialog {
         setVisible(true);
     }
 
+    // loads available showtimes into the dropdown list
     private void loadShowtimes() {
         List<Showtimes> showtimes = showtimesDAO.getAllShowtimes();
         showtimeDropdown.removeAllItems();
@@ -79,6 +84,7 @@ public class TicketForm extends JDialog {
         }
     }
 
+    // saves or updates ticket details
     private void saveTicket() {
         try {
             int seatRow = Integer.parseInt(seatRowField.getText());
@@ -99,6 +105,7 @@ public class TicketForm extends JDialog {
                 return;
             }
 
+            // if adding a new ticket, check if the seat is already occupied
             if (ticket == null) {
                 if (ticketsDAO.isSeatOccupied(showtimeId, seatId)) {
                     JOptionPane.showMessageDialog(this, "This seat is already occupied!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -109,6 +116,7 @@ public class TicketForm extends JDialog {
                     JOptionPane.showMessageDialog(this, "Ticket added successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
                 }
             } else {
+                // if updating, check if the new seat is occupied
                 if (ticket.getSeatId() != seatId && ticketsDAO.isSeatOccupied(showtimeId, seatId)) {
                     JOptionPane.showMessageDialog(this, "This seat is already occupied!", "Error", JOptionPane.ERROR_MESSAGE);
                     return;

@@ -7,20 +7,24 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
+// window for checkout and ticket confirmation
 public class CheckoutFrame extends JFrame {
     public CheckoutFrame(String movieTitle, String showDate, String showTime, int showtimeId, String hallName, List<Seats> selectedSeats, int totalPrice) {
+        // set up window properties
         setTitle("Checkout - " + movieTitle);
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
+        // create top panel with checkout title
         JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 20));
         JLabel checkoutLabel = new JLabel("Checkout");
         checkoutLabel.setFont(new Font("Arial", Font.BOLD, 20));
         topPanel.add(checkoutLabel);
         add(topPanel, BorderLayout.NORTH);
 
+        // main panel for displaying ticket details
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
@@ -37,6 +41,7 @@ public class CheckoutFrame extends JFrame {
         mainPanel.add(ticketsLabel);
         mainPanel.add(Box.createVerticalStrut(10));
 
+        // panel to list selected seats
         JPanel ticketsPanel = new JPanel(new GridLayout(selectedSeats.size(), 1, 5, 5));
         ticketsPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
@@ -60,12 +65,14 @@ public class CheckoutFrame extends JFrame {
         mainPanel.add(ticketsPanel);
         mainPanel.add(Box.createVerticalStrut(20));
 
+        // display total price
         JLabel totalLabel = new JLabel("Total: $" + totalPrice);
         totalLabel.setFont(new Font("Arial", Font.BOLD, 16));
         totalLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         mainPanel.add(totalLabel);
         mainPanel.add(Box.createVerticalStrut(20));
 
+        // button for payment
         JButton payButton = new JButton("Pay");
         payButton.setPreferredSize(new Dimension(100, 40));
         payButton.addActionListener(e -> {
@@ -86,6 +93,7 @@ public class CheckoutFrame extends JFrame {
             }
         });
 
+        // panel to hold pay button
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
         buttonPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
         buttonPanel.add(payButton);

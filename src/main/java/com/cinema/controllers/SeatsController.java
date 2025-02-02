@@ -23,6 +23,7 @@ public class SeatsController {
         return seatsDAO.getSeatsByHallId(hallId);
     }
 
+    // retrieves the set of occupied seat ids for a specific showtime
     public Set<Integer> getOccupiedSeatsByShowtime(int showtimeId) {
         Set<Integer> occupiedSeats = new HashSet<>();
         String query = "SELECT seat_id FROM tickets WHERE showtime_id = ?";
@@ -30,9 +31,11 @@ public class SeatsController {
         try (Connection conn = DBConnectionManager.getInstance().getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
 
+            // set the showtime id parameter in the query
             stmt.setInt(1, showtimeId);
             ResultSet rs = stmt.executeQuery();
 
+            // add each occupied seat id to the set
             while (rs.next()) {
                 occupiedSeats.add(rs.getInt("seat_id"));
             }

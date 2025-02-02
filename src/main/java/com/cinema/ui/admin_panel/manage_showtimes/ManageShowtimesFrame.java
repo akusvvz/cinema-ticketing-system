@@ -9,6 +9,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.List;
 
+// frame for managing showtimes (add, edit, delete)
 public class ManageShowtimesFrame extends JFrame {
     private JTable showtimesTable;
     private DefaultTableModel tableModel;
@@ -23,23 +24,27 @@ public class ManageShowtimesFrame extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
 
+        // header label
         JLabel titleLabel = new JLabel("Manage Showtimes");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 22));
         titleLabel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 0));
         add(titleLabel, BorderLayout.NORTH);
 
+        // table setup
         String[] columnNames = {"ID", "Movie", "Hall", "Date", "Time"};
         tableModel = new DefaultTableModel(columnNames, 0);
         showtimesTable = new JTable(tableModel);
         JScrollPane scrollPane = new JScrollPane(showtimesTable);
         add(scrollPane, BorderLayout.CENTER);
 
+        // initialize DAO instances
         showtimesDAO = new ShowtimesDAO();
         moviesDAO = new MoviesDAO();
         hallsDAO = new HallsDAO();
 
         loadShowtimes();
 
+        // button panel for adding, editing, and deleting showtimes
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         JButton addButton = new JButton("Add Showtime");
         JButton editButton = new JButton("✎");
@@ -57,6 +62,7 @@ public class ManageShowtimesFrame extends JFrame {
         setVisible(true);
     }
 
+    // loads showtimes into the table
     public void loadShowtimes() {
         List<Showtimes> showtimes = showtimesDAO.getAllShowtimes();
         tableModel.setRowCount(0);
@@ -71,10 +77,12 @@ public class ManageShowtimesFrame extends JFrame {
         }
     }
 
+    // opens the form to add or edit a showtime
     private void openShowtimeForm(Showtimes showtime) {
         new ShowtimeForm(this, showtime);
     }
 
+    // handles editing a selected showtime
     private void editSelectedShowtime() {
         int selectedRow = showtimesTable.getSelectedRow();
         if (selectedRow == -1) {
@@ -86,6 +94,7 @@ public class ManageShowtimesFrame extends JFrame {
         openShowtimeForm(showtime);
     }
 
+    // handles deleting a selected showtime
     private void deleteSelectedShowtime() {
         int selectedRow = showtimesTable.getSelectedRow();
         if (selectedRow == -1) {

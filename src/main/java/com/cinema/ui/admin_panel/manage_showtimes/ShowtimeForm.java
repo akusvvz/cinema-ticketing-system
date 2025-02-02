@@ -12,6 +12,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
+// dialog form for adding or updating showtimes
 public class ShowtimeForm extends JDialog {
     private JComboBox<Movies> movieDropdown;
     private JComboBox<Halls> hallDropdown;
@@ -29,6 +30,7 @@ public class ShowtimeForm extends JDialog {
         super(parent, "Showtime Details", true);
         this.showtime = showtime;
 
+        // initialize DAOs
         moviesDAO = new MoviesDAO();
         hallsDAO = new HallsDAO();
         showtimesDAO = new ShowtimesDAO();
@@ -37,16 +39,19 @@ public class ShowtimeForm extends JDialog {
         setLocationRelativeTo(parent);
         setLayout(new GridLayout(5, 2, 10, 10));
 
+        // dropdown for movie selection
         add(new JLabel("Movie:"));
         movieDropdown = new JComboBox<>();
         loadMovies();
         add(movieDropdown);
 
+        // dropdown for hall selection
         add(new JLabel("Hall:"));
         hallDropdown = new JComboBox<>();
         loadHalls();
         add(hallDropdown);
 
+        // input fields for date and time
         add(new JLabel("Date (YYYY-MM-DD):"));
         dateField = new JTextField();
         add(dateField);
@@ -55,11 +60,13 @@ public class ShowtimeForm extends JDialog {
         timeField = new JTextField();
         add(timeField);
 
+        // save button to add or update a showtime
         saveButton = new JButton(showtime == null ? "Add Showtime" : "Update Showtime");
         saveButton.addActionListener(e -> saveShowtime());
         add(new JLabel());
         add(saveButton);
 
+        // pre-fill fields if editing an existing showtime
         if (showtime != null) {
             for (int i = 0; i < movieDropdown.getItemCount(); i++) {
                 Movies m = movieDropdown.getItemAt(i);
@@ -82,6 +89,7 @@ public class ShowtimeForm extends JDialog {
         setVisible(true);
     }
 
+    // loads available movies into the dropdown
     private void loadMovies() {
         List<Movies> movies = moviesDAO.getAllMovies();
         movieDropdown.removeAllItems();
@@ -90,6 +98,7 @@ public class ShowtimeForm extends JDialog {
         }
     }
 
+    // loads available halls into the dropdown
     private void loadHalls() {
         List<Halls> halls = hallsDAO.getAllHalls();
         hallDropdown.removeAllItems();
@@ -98,6 +107,7 @@ public class ShowtimeForm extends JDialog {
         }
     }
 
+    // saves the new or updated showtime
     private void saveShowtime() {
         try {
             Movies selectedMovie = (Movies) movieDropdown.getSelectedItem();
@@ -112,6 +122,7 @@ public class ShowtimeForm extends JDialog {
             LocalTime time = LocalTime.parse(timeText);
 
             if (showtime == null) {
+                // adding a new showtime
                 Showtimes newShowtime = new Showtimes();
                 newShowtime.setMovieId(selectedMovie.getMovieId());
                 newShowtime.setHallId(selectedHall.getHallId());
@@ -124,6 +135,7 @@ public class ShowtimeForm extends JDialog {
                     JOptionPane.showMessageDialog(this, "Failed to add showtime.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             } else {
+                // updating an existing showtime
                 showtime.setMovieId(selectedMovie.getMovieId());
                 showtime.setHallId(selectedHall.getHallId());
                 showtime.setShowDate(date);

@@ -1,5 +1,6 @@
 package com.cinema.entities;
 
+// represents a cinema hall entity
 public class Halls {
     private int hallId;
     private String name;
@@ -13,6 +14,7 @@ public class Halls {
         this.capacity = capacity;
     }
 
+    //  getters and setters
     public int getHallId() {
         return hallId;
     }
@@ -37,6 +39,7 @@ public class Halls {
         this.capacity = capacity;
     }
 
+    // returns the hall name as a string representation
     @Override
     public String toString() {
         return name;
