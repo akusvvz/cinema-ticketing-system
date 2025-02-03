@@ -12,7 +12,7 @@ The Cinema Ticketing System is a desktop Java application designed to manage mov
 
 ### **1. Clone the Repository**
 ```sh
-git clone https://github.com/your-repo/cinema-ticketing-system.git
+git clone https://github.com/akusvvz/cinema-ticketing-system.git
 cd cinema-ticketing-system
 ```
 
